@@ -39,10 +39,12 @@ fn main() -> amethyst::Result<()> {
 					.with_clear([0.0, 0.0, 0.0, 1.0])
 			)
 			.with_plugin(RenderFlat2D::default())
-		)?;
+		)?
+		.with(systems::MoveBallsSystem, "ball_system", &[])
+		.with(systems::BounceSystem, "collision_system", &["paddle_system", "ball_system"]);
 
     let asset_dir = app_root.join("assets");
-    let mut game = Application::new(asset_dir, Pong, game_data)?;
+    let mut game = Application::new(asset_dir, Pong::default(), game_data)?;
 
     game.run();
     Ok(())
